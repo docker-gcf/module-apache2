@@ -20,9 +20,9 @@ docker-gcf-apache2-config:
       - marker_end: "#-- end managed zone docker-gcf-apache2 --"
       - content: |
 {% raw %}
-                   LogFormat "%{%Y-%m-%d %H:%M:%S}t %v:%p %h %l %u \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" vhost_combined
-                   LogFormat "%{%Y-%m-%d %H:%M:%S}t %h %l %u \"%r\" %>s %O \"%{Referer}i\" \"%{User-Agent}i\"" combined
-                   LogFormat "%{%Y-%m-%d %H:%M:%S}t %h %l %u \"%r\" %>s %O" common
+                   LogFormat "%{%Y-%m-%d %H:%M:%S}t %v:%p %h %l %u \"%r\" %>s \"%{Referer}i\" \"%{User-Agent}i\"" vhost_combined
+                   LogFormat "%{%Y-%m-%d %H:%M:%S}t %h %l %u \"%r\" %>s \"%{Referer}i\" \"%{User-Agent}i\"" combined
+                   LogFormat "%{%Y-%m-%d %H:%M:%S}t %h %l %u \"%r\" %>s" common
 {% endraw %}
 {% else %}
 docker-gcf-apache2-config:
