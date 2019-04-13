@@ -7,11 +7,10 @@ docker-gcf-apache2-config:
       - marker_end: "#-- end managed zone docker-gcf-apache2 --"
       - content: |
                    ServerName {{ salt['pillar.get']('gcf:modules:apache2:server_name') }}
-{% raw %}
-                   LogFormat "%{%Y-%m-%d %H:%M:%S}t %v:%p %h %l %u \"%r\" %>s \"%{Referer}i\" \"%{User-Agent}i\"" vhost_combined
-                   LogFormat "%{%Y-%m-%d %H:%M:%S}t %h %l %u \"%r\" %>s \"%{Referer}i\" \"%{User-Agent}i\"" combined
-                   LogFormat "%{%Y-%m-%d %H:%M:%S}t %h %l %u \"%r\" %>s" common
-{% endraw %}
+                   {% raw %}ErrorLogFormat "%{c}t [%-m:%l] [pid %P:tid %T] %7F: %E: [client\ %a] %M% ,\ referer\ %{Referer}i"{% endraw %}
+                   <IfModule log_config_module>
+                   {% raw %}  LogFormat "%{{% endraw %}{{ salt['pillar.get']('gcf:logs:ts:strftime') }}{% raw %}}t %h %l %u \"%r\" %>s" common{% endraw %}
+                   </IfModule>
 {% else %}
 docker-gcf-apache2-config:
   test.fail_without_changes:
