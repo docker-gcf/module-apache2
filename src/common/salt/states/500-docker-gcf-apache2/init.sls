@@ -1,5 +1,7 @@
+{% set state_name = "docker-gcf-apache2" %}
+
 {% if salt['pillar.get']('gcf:modules:apache2:httpd_conf_path') %}
-docker-gcf-apache2-config:
+{{ state_name }}-config:
   file.blockreplace:
       - name: {{ salt['pillar.get']('gcf:modules:apache2:httpd_conf_path') }}
       - append_if_not_found: True
@@ -12,7 +14,7 @@ docker-gcf-apache2-config:
                    {% raw %}  LogFormat "%{{% endraw %}{{ salt['pillar.get']('gcf:logs:ts:strftime') }}{% raw %}}t %h %l %u \"%r\" %>s" common{% endraw %}
                    </IfModule>
 {% else %}
-docker-gcf-apache2-config:
+{{ state_name }}-config:
   test.fail_without_changes:
     - name: "apache2 configuration file not found"
     - failhard: True
@@ -21,14 +23,14 @@ docker-gcf-apache2-config:
 
 {% if salt['pillar.get']('gcf:modules:apache2:document_root') %}
 {% if salt['pillar.get']('gcf:modules:apache2:default_site_conf_path') %}
-docker-gcf-apache2-config-document-root:
+{{ state_name }}-config-document-root:
   file.line:
     - name: {{ salt['pillar.get']('gcf:modules:apache2:default_site_conf_path') }}
     - match: DocumentRoot .*
     - mode: replace
     - content: DocumentRoot {{ salt['pillar.get']('gcf:modules:apache2:document_root') }}
 {% else %}
-docker-gcf-apache2-config-document-root:
+{{ state_name }}-config-document-root:
   test.fail_without_changes:
       - name: "apache2 default site configuration file not found"
       - failhard: True
@@ -36,8 +38,8 @@ docker-gcf-apache2-config-document-root:
 {% endif %}
 
 
-docker-gcf-apache2-supervisor:
+{{ state_name }}-supervisor:
   file.managed:
-    - name: /etc/supervisor/conf.d/apache2.conf
-    - source: salt://500-docker-gcf-apache2/supervisor.conf
+    - name: /etc/supervisor/conf.d/{{ state_name }}.conf
+    - source: salt://{{ tpldir }}/supervisor.conf
     - template: jinja
