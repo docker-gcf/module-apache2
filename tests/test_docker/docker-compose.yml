@@ -1,0 +1,20 @@
+version: '3.7'
+
+x-common: &common
+#  restart: unless-stopped
+  env_file:
+    - env
+  environment:
+    - "GCF_DEBUG_SHOW_MODEL_JSON=1"
+
+services:
+  httpd:
+    << : *common
+    build: ./httpd
+    ports:
+      - "127.0.0.1:8080:80"
+  php:
+    << : *common
+    build: ./php
+    ports:
+      - "127.0.0.1:8081:80"
