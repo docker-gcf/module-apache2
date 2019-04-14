@@ -24,3 +24,9 @@ gcf:
       default_site_conf_path: {{ default_site_conf_path }}
       server_name: apache2
       document_root: False
+
+  supervisor:
+    programs:
+      apache2:
+        extraConfig:
+          command: {{ cmd }}
