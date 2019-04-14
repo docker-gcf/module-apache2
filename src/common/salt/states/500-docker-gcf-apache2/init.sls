@@ -12,8 +12,8 @@
                    {% raw %}ErrorLogFormat "[%-m:%l] [pid %P:tid %T] %7F: %E: [client\ %a] %M% ,\ referer\ %{Referer}i"{% endraw %}
                    <IfModule log_config_module>
                    {% raw %}  LogFormat "%v:%p %h %l %u \"%r\" %>s \"%{Referer}i\" \"%{User-Agent}i\"" vhost_combined{% endraw %}
-                   {% raw %}  LogFormat "%h %l %u \"%r\" %>s \"%{Referer}i\" \"%{User-Agent}i\"" combined{% endraw %}
-                   {% raw %}  LogFormat "%h %l %u \"%r\" %>s" common{% endraw %}
+                   {% raw %}  LogFormat "%v:%p %h %l %u \"%r\" %>s \"%{Referer}i\" \"%{User-Agent}i\"" combined{% endraw %}
+                   {% raw %}  LogFormat "%v:%p %h %l %u \"%r\" %>s \"%{Referer}i\" \"%{User-Agent}i\"" common{% endraw %}
                    </IfModule>
 {% else %}
 {{ state_name }}-config:
