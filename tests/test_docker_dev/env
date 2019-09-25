@@ -1,0 +1,5 @@
+TZ=Europe/London
+
+GCF__common__ssmtp__extraConfig__root="root@example.com"
+GCF__common__ssmtp__extraConfig__mailhub="172.17.0.1"
+GCF__common__ssmtp__extraConfig__rewriteDomain="example.com"
