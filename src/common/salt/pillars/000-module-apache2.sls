@@ -24,7 +24,18 @@ gcf:
           command: {{ cmd }}
 
 module_apache2:
-  httpd_conf_path: {{ httpd_conf_path }}
-  default_site_conf_path: {{ default_site_conf_path }}
-  server_name: apache2
-  document_root: False
+  httpd_conf:
+    path: {{ httpd_conf_path }}
+    server_name: apache2
+    blocks:
+      - |
+          {% raw %}ErrorLogFormat "[%-m:%l] [pid %P:tid %T] %7F: %E: [client\ %a] %M% ,\ referer\ %{Referer}i"{% endraw %}
+          <IfModule log_config_module>
+            {% raw %}  LogFormat "%v:%p %h %l %u \"%r\" %>s \"%{Referer}i\" \"%{User-Agent}i\"" vhost_combined{% endraw %}
+            {% raw %}  LogFormat "%v:%p %h %l %u \"%r\" %>s \"%{Referer}i\" \"%{User-Agent}i\"" combined{% endraw %}
+            {% raw %}  LogFormat "%v:%p %h %l %u \"%r\" %>s \"%{Referer}i\" \"%{User-Agent}i\"" common{% endraw %}
+          </IfModule>
+  default_site:
+    path: {{ default_site_conf_path }}
+    document_root: False
+    blocks: []
