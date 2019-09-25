@@ -17,16 +17,14 @@
 {% set default_site_conf_path = __salt__['module_apache2.get_first_existing_path'](default_site_conf_paths) %}
 
 gcf:
-  modules:
-    apache2:
-      cmd: {{ cmd }}
-      httpd_conf_path: {{ httpd_conf_path }}
-      default_site_conf_path: {{ default_site_conf_path }}
-      server_name: apache2
-      document_root: False
-
   supervisor:
     programs:
       apache2:
         extraConfig:
           command: {{ cmd }}
+
+module_apache2:
+  httpd_conf_path: {{ httpd_conf_path }}
+  default_site_conf_path: {{ default_site_conf_path }}
+  server_name: apache2
+  document_root: False
