@@ -3,7 +3,7 @@ FROM httpd:2.4
 ADD https://raw.githubusercontent.com/docker-gcf/docker-gcf/develop/setup.sh /tmp/docker-gcf-setup.sh
 RUN sh /tmp/docker-gcf-setup.sh -m apache2=develop
 ENTRYPOINT ["gcf-entrypoint"]
-CMD ["supervisord", "-n"]
+CMD ["gcf-cmd"]
 
-COPY ./config /etc/salt/base/
-COPY ./wwwroot /usr/local/apache2/htdocs
+COPY ./httpd/config/ /etc/salt/base/
+COPY ./httpd/wwwroot/ /usr/local/apache2/htdocs/

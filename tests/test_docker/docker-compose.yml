@@ -5,16 +5,20 @@ x-common: &common
   env_file:
     - env
   environment:
-    - "GCF_DEBUG_SHOW_MODEL_JSON=1"
+    - "GCF__gcf__entrypoint__debug__pillar__print=1"
 
 services:
   httpd:
     << : *common
-    build: ./httpd
+    build:
+      context: ./services/
+      dockerfile: ./httpd/Dockerfile
     ports:
       - "127.0.0.1:8080:80"
   php:
     << : *common
-    build: ./php
+    build:
+      context: ./services/
+      dockerfile: ./php/Dockerfile
     ports:
       - "127.0.0.1:8081:80"
