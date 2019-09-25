@@ -16,8 +16,13 @@
 {% endif %}
 
 
-{% if salt['pillar.get']('module_apache2:default_site:document_root') %}
 {% if salt['pillar.get']('module_apache2:default_site:path') %}
+{{ state_name }}-default_site-marker:
+  file.replace:
+      - name: {{ salt['pillar.get']('module_apache2:default_site:path') }}
+      - pattern: \n((?!default_site-blocks).)*\n</VirtualHost>\n
+      - repl: "\n#-- start managed zone {{ state_name }}-default_site-blocks --\n#-- end managed zone {{ state_name }}-default_site-blocks --\n</VirtualHost>"
+
 {{ state_name }}-default_site-blocks:
   file.blockreplace:
       - name: {{ salt['pillar.get']('module_apache2:default_site:path') }}
@@ -30,5 +35,4 @@
   test.fail_without_changes:
       - name: "apache2 default site configuration file not found"
       - failhard: True
-{% endif %}
 {% endif %}
