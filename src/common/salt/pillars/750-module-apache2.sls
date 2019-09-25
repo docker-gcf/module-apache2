@@ -1,7 +1,7 @@
 module_apache2:
   httpd_conf:
     blocks:
-{% stack['module_apache2']['httpd_conf']['server_name'] %}
+{% if stack['module_apache2']['httpd_conf']['server_name'] %}
       - ServerName {{ stack['module_apache2']['httpd_conf']['server_name'] | string }}
 {% endif %}
   default_site:
